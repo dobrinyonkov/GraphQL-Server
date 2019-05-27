@@ -35,6 +35,10 @@ module.exports = {
 			type: String,
 			required: false
 		},
+		role: {
+			type: String,
+			required: false, // TODO : make true
+		},
 		profile: {
 			default: {
 				firstName: {

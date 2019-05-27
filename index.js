@@ -17,6 +17,8 @@ fastify.get('/', async (request, reply) => {
   return { hello: 'world' }
 })
 
+mongoose.set('useFindAndModify', false);
+
 // Connect to DB
 mongoose.connect('mongodb://admin:1q2w3e@ds211265.mlab.com:11265/uber-guide-v2')
  .then(() => console.log('MongoDB connected…'))
