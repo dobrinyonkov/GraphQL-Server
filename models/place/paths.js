@@ -25,8 +25,8 @@ const routes = [
 	},
 	{
 		method: 'PUT',
-		url: '/api/places/addVisitor',
-		handler: placeController.addPlaceVisitor
+		url: '/api/places/addVisit',
+		handler: placeController.addPlaceVisit
 	},
 	{
 		method: 'PUT',

@@ -43,7 +43,7 @@ exports.getSinglePlace = async (req, reply) => {
 	try {
 		const id = req.params.id
 		return await Place.findById(id)
-			.populate('visitors')
+			.populate('visits')
 	} catch (err) {
 		throw boom.boomify(err)
 	}
@@ -60,11 +60,11 @@ exports.addPlace = async (req, reply) => {
 }
 
 // Add a new place
-exports.addPlaceVisitor = async (req, reply) => {
+exports.addPlaceVisit = async (req, reply) => {
 	try {
 		const id = req.body.place
-		const visitor = req.body.visitor
-		return await Place.findByIdAndUpdate({_id: id}, { $push: { visitors: visitor } }, { new: true } )
+		const visit = req.body.visit
+		return await Place.findByIdAndUpdate({_id: id}, { $push: { visits: visit } }, { new: true } )
 	} catch (err) {
 		throw boom.boomify(err)
 	}
