@@ -28,11 +28,19 @@ exports.getPlacesNear = async (req, reply) => {
 						type: "Point",
 						coordinates
 					},
-					$maxDistance: 5000
+					$maxDistance: req.query.range
 				}
 			}
 		}
-		return await Place.find(query)
+		
+		return await Place.find(query).populate({
+			path: 'visits',
+			select: 'user',
+			populate: {
+				path: 'user',
+				select: 'profile.firstName +_id',
+			}
+		})
 	} catch (err) {
 		throw boom.boomify(err)
 	}

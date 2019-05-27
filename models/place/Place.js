@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
 	visits: [{
 		type:
 		mongoose.Schema.Types.ObjectId,
-		ref: 'User'
+		ref: 'Visit'
 	}],
 	location: pointSchema
 })
