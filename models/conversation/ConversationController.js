@@ -19,6 +19,10 @@ exports.getConversationsByParticipant = async (req, reply) => {
 	try {
 		const participantId = req.params.id
 		return await Conversation.find({participants: participantId})
+			.populate({
+				path: 'participants',
+				select: 'image profile.firstName profile.lastName +_id'
+			})
 	} catch (err) {
 		throw boom.boomify(err)
 	}
@@ -62,6 +66,8 @@ exports.addConversation = async (req, reply) => {
 			body: composedMessage,
 			author: user
 		})
+		
+		conversation.lastMessage = message // TODO :: temporary solution
 		
 		return {
 			message: await message.save(),

@@ -39,6 +39,10 @@ module.exports = {
 			type: String,
 			required: false, // TODO : make true
 		},
+		image: {
+			type: String,
+			required: false, // TODO : make true
+		},
 		profile: {
 			default: {
 				firstName: {
