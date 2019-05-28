@@ -18,14 +18,28 @@ exports.getConversations = async (req, reply) => {
 exports.getConversationsByParticipant = async (req, reply) => {
 	try {
 		const participantId = req.params.id
-		return await Conversation.find({participants: participantId})
+		const messagesRequired = req.query.requireMessages
+		
+		const messages = messagesRequired ? await Message.find({conversationId: messagesRequired})
 			.populate({
-				path: 'participants',
+				path: 'author',
 				select: 'image profile.firstName profile.lastName +_id'
-			})
-			.populate({
-				path: 'lastMessage',
-			})
+			}) : null
+		
+		const conversations = await Conversation.find({participants: participantId})
+				.populate({
+					path: 'participants',
+					select: 'image profile.firstName profile.lastName +_id'
+				})
+				.populate({
+					path: 'lastMessage',
+				})
+			
+		return {
+			conversations,
+			messages
+		}
+		
 	} catch (err) {
 		throw boom.boomify(err)
 	}
