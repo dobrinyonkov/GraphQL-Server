@@ -17,8 +17,11 @@ exports.getMessages = async (req, reply) => {
 exports.getMessagesInConversation = async (req, reply) => {
 	try {
 		const conversationId = req.params.id
-		console.error('conversationId', conversationId)
 		return await Message.find({conversationId: conversationId})
+			.populate({
+				path: 'author',
+				select: 'profile image +_id'
+			})
 	} catch (err) {
 		throw boom.boomify(err)
 	}
