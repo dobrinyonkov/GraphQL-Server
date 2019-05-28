@@ -17,8 +17,8 @@ exports.getPlaces = async (req, reply) => {
 exports.getPlacesNear = async (req, reply) => {
 	try {
 		const coordinates = [
-			parseFloat(req.query.latitude),
-			parseFloat(req.query.longitude)
+			parseFloat(req.query.longitude),
+			parseFloat(req.query.latitude)
 		]
 		
 		const query = {
@@ -28,7 +28,7 @@ exports.getPlacesNear = async (req, reply) => {
 						type: "Point",
 						coordinates
 					},
-					$maxDistance: req.query.range
+					$maxDistance: parseInt(req.query.range)
 				}
 			}
 		}

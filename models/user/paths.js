@@ -9,6 +9,11 @@ const routes = [
 	},
 	{
 		method: 'GET',
+		url: '/api/users/near',
+		handler: userController.getUsersNear
+	},
+	{
+		method: 'GET',
 		url: '/api/users/:id',
 		handler: userController.getSingleUser
 	},

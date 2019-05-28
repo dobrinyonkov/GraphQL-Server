@@ -28,8 +28,8 @@ exports.getVisitsByUser = async (req, reply) => {
 exports.getVisitsNear = async (req, reply) => {
 	try {
 		const coordinates = [
-			parseFloat(req.query.latitude),
-			parseFloat(req.query.longitude)
+			parseFloat(req.query.longitude),
+			parseFloat(req.query.latitude)
 		]
 		
 		const query = {
@@ -39,7 +39,7 @@ exports.getVisitsNear = async (req, reply) => {
 						type: "Point",
 						coordinates
 					},
-					$maxDistance: req.query.range
+					$maxDistance: parseInt(req.query.range)
 				}
 			},
 			visits: { $exists: true, $not: {$size: 0} }

@@ -13,6 +13,36 @@ exports.getUsers = async (req, reply) => {
 	}
 }
 
+// Get all users near
+exports.getUsersNear = async (req, reply) => {
+	try {
+		const coordinates = [
+			parseFloat(req.query.longitude),
+			parseFloat(req.query.latitude)
+		]
+		
+		const query = {
+			location: {
+				$near: {
+					$geometry: {
+						type: "Point",
+						coordinates
+					},
+					$maxDistance: parseInt(req.query.range)
+				}
+			}
+		}
+		
+		return await User.find(query).select({
+			profile: 1,
+			location: 1,
+			_id: 1
+		})
+	} catch (err) {
+		throw boom.boomify(err)
+	}
+}
+
 // Get single user by ID
 exports.getSingleUser = async (req, reply) => {
 	try {
@@ -38,7 +68,7 @@ exports.updateUser = async (req, reply) => {
 	try {
 		const id = req.params.id
 		const user = req.body
-		const { ...updateData } = user
+		const {...updateData} = user
 		return await User.findByIdAndUpdate(id, updateData, {new: true})
 	} catch (err) {
 		throw boom.boomify(err)
