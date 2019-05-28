@@ -41,7 +41,10 @@ exports.getSingleMessage = async (req, reply) => {
 exports.addMessage = async (req, reply) => {
 	try {
 		const message = new Message(req.body)
-		return message.save()
+		return message.save().then(m => m.populate({
+			path: 'author',
+			select: 'profile +_id'
+		}).execPopulate())
 	} catch (err) {
 		throw boom.boomify(err)
 	}
