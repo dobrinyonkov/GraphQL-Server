@@ -3,6 +3,7 @@ const boom = require('boom')
 
 // Get Data Models
 const Message = require('./Message')
+const Conversation = require('../conversation/Conversation')
 
 // Get all messages
 exports.getMessages = async (req, reply) => {
@@ -20,7 +21,7 @@ exports.getMessagesInConversation = async (req, reply) => {
 		return await Message.find({conversationId: conversationId})
 			.populate({
 				path: 'author',
-				select: 'profile image +_id'
+				select: 'image profile.firstName profile.lastName +_id'
 			})
 	} catch (err) {
 		throw boom.boomify(err)
@@ -41,6 +42,7 @@ exports.getSingleMessage = async (req, reply) => {
 exports.addMessage = async (req, reply) => {
 	try {
 		const message = new Message(req.body)
+		await Conversation.findByIdAndUpdate(message.conversationId, {lastMessage: message._id}, {new: true})
 		return message.save().then(m => m.populate({
 			path: 'author',
 			select: 'profile +_id'

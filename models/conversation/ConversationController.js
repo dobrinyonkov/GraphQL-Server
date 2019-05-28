@@ -23,6 +23,9 @@ exports.getConversationsByParticipant = async (req, reply) => {
 				path: 'participants',
 				select: 'image profile.firstName profile.lastName +_id'
 			})
+			.populate({
+				path: 'lastMessage',
+			})
 	} catch (err) {
 		throw boom.boomify(err)
 	}
@@ -32,7 +35,7 @@ exports.getConversationsByParticipant = async (req, reply) => {
 exports.getSingleConversation = async (req, reply) => {
 	try {
 		const id = req.params.id
-		return await Conversation.findById(id)
+		return await Conversation.findById(id).populate('lastMessage')
 	} catch (err) {
 		throw boom.boomify(err)
 	}
@@ -67,7 +70,7 @@ exports.addConversation = async (req, reply) => {
 			author: user
 		})
 		
-		conversation.lastMessage = message // TODO :: temporary solution
+		conversation.lastMessage = message._id // TODO :: temporary solution
 		
 		return {
 			message: await message.save(),
