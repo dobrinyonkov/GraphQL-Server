@@ -23,16 +23,8 @@ module.exports = {
 			type: String,
 			required: true
 		},
-		chatRooms: {
-			type: Array,
-			required: false
-		},
 		locations: {
 			type: Array,
-			required: false
-		},
-		socketId: {
-			type: String,
 			required: false
 		},
 		role: {
@@ -45,44 +37,16 @@ module.exports = {
 		},
 		profile: {
 			default: {
-				firstName: {
-					label: 'Firs Name',
-					value: '',
-					disabled: false
-				},
-				lastName: {
-					label: 'Last Name',
-					value: '',
-					disabled: false
-				},
-				company: {
-					label: 'Company',
-					value: '',
-					disabled: false
-				},
-				aboutMe: {
-					label: 'About Me',
-					value: '',
-					disabled: false
-				},
-				phone: {
-					label: 'Phone',
-					value: '',
-					disabled: false
-				},
-				country : {
-					label: 'Country',
-					value: '',
-					disabled: false
-				},
-				city: {
-					label: 'City',
-					value: '',
-					disabled: false
-				},
+				firstName: '',
+				lastName: '',
+				company: '',
+				aboutMe: '',
+				phone: '',
+				country: '',
+				city: '',
 			},
 			type: Object,
 			required: false
 		},
-	}
+	},
 }

@@ -66,12 +66,13 @@ const addUser = async (req, reply) => {
 // Add a new user
 const login = async (req, reply) => {
 	try {
-		const user = await User.find({email: req.body.email})
-		if (!user || user.length < 1) {
+		const users = await User.find({email: req.body.email})
+		const user = users[0]
+		if (!user) {
 			return new boom('Authentication failed. User not found.', {statusCode: 404});
 		} else {
 			//check if password matches
-			if (user[0].password === req.body.password) {
+			if (user.password === req.body.password) {
 				return user
 			} else {
 				return new boom('Authentication failed. Wrong password.', {statusCode: 400});
