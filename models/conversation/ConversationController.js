@@ -37,7 +37,8 @@ exports.getConversationsByParticipant = async (req, reply) => {
 			
 		return {
 			conversations,
-			messages
+			messages,
+			conversationId: messagesRequired
 		}
 		
 	} catch (err) {

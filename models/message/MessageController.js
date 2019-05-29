@@ -42,6 +42,15 @@ exports.getSingleMessage = async (req, reply) => {
 exports.addMessage = async (req, reply) => {
 	try {
 		const message = new Message(req.body)
+		let conversations = await Conversation.find({_id: req.body.conversationId, participants: req.body.author})
+		
+		//TODO :: implement validator.js and move there
+		if (!conversations || conversations.length === 0) {
+			const err = new Error('Forbidden or No Permission to Access');
+			err.code = '403'
+			throw boom.boomify(err)
+		}
+		
 		await Conversation.findByIdAndUpdate(message.conversationId, {lastMessage: message._id}, {new: true})
 		return message.save().then(m => m.populate({
 			path: 'author',
