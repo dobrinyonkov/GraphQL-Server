@@ -24,6 +24,12 @@ const routes = [
 		// schema: documentation.addUserSchema
 	},
 	{
+		method: 'POST',
+		url: '/api/users/login',
+		handler: userController.login,
+		// schema: documentation.addUserSchema
+	},
+	{
 		method: 'PUT',
 		url: '/api/users/:id',
 		handler: userController.updateUser

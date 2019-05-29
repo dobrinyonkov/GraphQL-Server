@@ -5,7 +5,7 @@ const boom = require('boom')
 const User = require('./User')
 
 // Get all users
-exports.getUsers = async (req, reply) => {
+const getUsers = async (req, reply) => {
 	try {
 		return await User.find()
 	} catch (err) {
@@ -14,7 +14,7 @@ exports.getUsers = async (req, reply) => {
 }
 
 // Get all users near
-exports.getUsersNear = async (req, reply) => {
+const getUsersNear = async (req, reply) => {
 	try {
 		const coordinates = [
 			parseFloat(req.query.longitude),
@@ -44,7 +44,7 @@ exports.getUsersNear = async (req, reply) => {
 }
 
 // Get single user by ID
-exports.getSingleUser = async (req, reply) => {
+const getSingleUser = async (req, reply) => {
 	try {
 		const id = req.params.id
 		return await User.findById(id)
@@ -54,7 +54,7 @@ exports.getSingleUser = async (req, reply) => {
 }
 
 // Add a new user
-exports.addUser = async (req, reply) => {
+const addUser = async (req, reply) => {
 	try {
 		const user = new User(req.body)
 		return user.save()
@@ -63,8 +63,27 @@ exports.addUser = async (req, reply) => {
 	}
 }
 
+// Add a new user
+const login = async (req, reply) => {
+	try {
+		const user = await User.find({email: req.body.email})
+		if (!user || user.length < 1) {
+			return new boom('Authentication failed. User not found.', {statusCode: 404});
+		} else {
+			//check if password matches
+			if (user[0].password === req.body.password) {
+				return user
+			} else {
+				return new boom('Authentication failed. Wrong password.', {statusCode: 400});
+			}
+		}
+	} catch (err) {
+		throw boom.boomify(err)
+	}
+}
+
 // Update an existing user
-exports.updateUser = async (req, reply) => {
+const updateUser = async (req, reply) => {
 	try {
 		const id = req.params.id
 		const user = req.body
@@ -76,11 +95,21 @@ exports.updateUser = async (req, reply) => {
 }
 
 // Delete a user
-exports.deleteUser = async (req, reply) => {
+const deleteUser = async (req, reply) => {
 	try {
 		const id = req.params.id
 		return await User.findByIdAndRemove(id)
 	} catch (err) {
 		throw boom.boomify(err)
 	}
+}
+
+module.exports = {
+	getUsers,
+	getUsersNear,
+	getSingleUser,
+	addUser,
+	login,
+	updateUser,
+	deleteUser,
 }
