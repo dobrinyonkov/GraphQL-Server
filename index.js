@@ -28,7 +28,7 @@ mongoose.connect('mongodb://admin:1q2w3e@ds211265.mlab.com:11265/uber-guide-v2')
 const port = 3000
 const start = async () => {
   try {
-    await fastify.listen(process.env.PORT || port)
+    await fastify.listen(process.env.PORT, '0.0.0.0')
     fastify.log.info(`server listening on ${fastify.server.address().port}`)
   } catch (err) {
     fastify.log.error(err)
