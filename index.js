@@ -10,6 +10,8 @@ const fastify = require('fastify')({
 
 fastify.register(require('fastify-cors'), { 
   // put your options here
+  origin: false,
+  methods: ['GET', 'PUT', 'POST', 'DELETE']
 })
 
 routes.forEach((route, index) => {
