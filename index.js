@@ -8,6 +8,10 @@ const fastify = require('fastify')({
   logger: true
 })
 
+fastify.register(require('fastify-cors'), { 
+  // put your options here
+})
+
 routes.forEach((route, index) => {
 	fastify.route(route)
 })
