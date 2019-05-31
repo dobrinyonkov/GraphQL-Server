@@ -8,10 +8,12 @@ const fastify = require('fastify')({
   logger: true
 })
 
-fastify.register(require('fastify-cors'), { 
+fastify.register(require('fastify-cors'), {
   // put your options here
-  origin: false,
-  methods: ['GET', 'PUT', 'POST', 'DELETE']
+  origin: '*',
+	credentials: true,
+	allowedHeaders: ['Origin', 'Content-Type', 'Authorization', 'Content-Length'],
+  methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS']
 })
 
 routes.forEach((route, index) => {
@@ -34,7 +36,7 @@ mongoose.connect('mongodb://admin:1q2w3e@ds211265.mlab.com:11265/uber-guide-v2')
 const port = 3000
 const start = async () => {
   try {
-    await fastify.listen(process.env.PORT, '0.0.0.0')
+    await fastify.listen(process.env.PORT || port, '0.0.0.0')
     fastify.log.info(`server listening on ${fastify.server.address().port}`)
   } catch (err) {
     fastify.log.error(err)
