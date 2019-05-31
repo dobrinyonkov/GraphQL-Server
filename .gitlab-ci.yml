@@ -15,7 +15,7 @@ staging:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
-    - dpl --provider=heroku --app=local-guide-server --api-key=$HEROKU_API_KEY
+    - dpl --provider=heroku --app=local-traveler --api-key=$HEROKU_API_KEY
   only:
     - dev
 
@@ -26,6 +26,6 @@ production:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
-    - dpl --provider=heroku --app=local-guide-server --api-key=$HEROKU_API_KEY
+    - dpl --provider=heroku --app=local-traveler --api-key=$HEROKU_API_KEY
   only:
     - master
