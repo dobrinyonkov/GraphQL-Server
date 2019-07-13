@@ -21,6 +21,8 @@ const getUsersNear = async (req, reply) => {
 			parseFloat(req.query.latitude)
 		]
 		
+		console.error(req.query.userId);
+		
 		const query = {
 			location: {
 				$near: {
@@ -30,7 +32,8 @@ const getUsersNear = async (req, reply) => {
 					},
 					$maxDistance: parseInt(req.query.range)
 				}
-			}
+			},
+			_id: { $ne: req.query.userId }
 		}
 		
 		return await User.find(query).select({

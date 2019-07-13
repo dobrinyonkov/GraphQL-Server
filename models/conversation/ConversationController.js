@@ -65,20 +65,25 @@ exports.addConversation = async (req, reply) => {
 		
 		if(!recipient || !user) {
 			return {
-				error: 'Please choose a valid recipient for your message.',
-				code: 422
+				message: 'Please choose a valid recipient for your message.',
+				statusCode: 422
 			}
 		}
 		
 		if(!composedMessage) {
 			return {
-				error: 'Please enter a message.',
-				code: 422
+				message: 'Please enter a message.',
+				statusCode: 422
 			}
 		}
-		const conversation = new Conversation({
-			participants: [recipient, user]
-		})
+
+		//check if conversation exists
+		let conversation = await Conversation.findOne({ "participants": { "$size" : 2, "$all": [recipient, user] }  });
+
+		if (!conversation) {
+			conversation = new Conversation({ participants: [recipient, user] })
+		}
+
 		const message = new Message({
 			conversationId: conversation._id,
 			body: composedMessage,
