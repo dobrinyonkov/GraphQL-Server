@@ -1,11 +1,15 @@
 const mongoose = require('mongoose')
-const { user, point} = require('./config')
-
-const pointSchema = new mongoose.Schema(point);
 
 const userSchema = new mongoose.Schema({
-	...user,
-	location: pointSchema
+	email: {
+		type: String,
+		unique: true,
+		required: true
+	},
+	password: {
+		type: String,
+		required: true
+	},
 })
 
 module.exports = mongoose.model('User', userSchema)

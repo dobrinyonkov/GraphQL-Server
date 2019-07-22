@@ -5,7 +5,7 @@ const boom = require('boom')
 const User = require('./User')
 
 // Get all users
-const getUsers = async (req, reply) => {
+const getUsers = async (args) => {
 	try {
 		return await User.find()
 	} catch (err) {
@@ -13,43 +13,10 @@ const getUsers = async (req, reply) => {
 	}
 }
 
-// Get all users near
-const getUsersNear = async (req, reply) => {
-	try {
-		const coordinates = [
-			parseFloat(req.query.longitude),
-			parseFloat(req.query.latitude)
-		]
-		
-		console.error(req.query.userId);
-		
-		const query = {
-			location: {
-				$near: {
-					$geometry: {
-						type: "Point",
-						coordinates
-					},
-					$maxDistance: parseInt(req.query.range)
-				}
-			},
-			_id: { $ne: req.query.userId }
-		}
-		
-		return await User.find(query).select({
-			profile: 1,
-			location: 1,
-			_id: 1
-		})
-	} catch (err) {
-		throw boom.boomify(err)
-	}
-}
-
 // Get single user by ID
-const getSingleUser = async (req, reply) => {
+const getSingleUser = async (args) => {
 	try {
-		const id = req.params.id
+		const id = args.id
 		return await User.findById(id)
 	} catch (err) {
 		throw boom.boomify(err)
@@ -57,9 +24,9 @@ const getSingleUser = async (req, reply) => {
 }
 
 // Add a new user
-const addUser = async (req, reply) => {
+const addUser = async (args) => {
 	try {
-		const user = new User(req.body)
+		const user = new User(args)
 		return user.save()
 	} catch (err) {
 		throw boom.boomify(err)
@@ -67,15 +34,15 @@ const addUser = async (req, reply) => {
 }
 
 // Add a new user
-const login = async (req, reply) => {
+const login = async (args) => {
 	try {
-		const users = await User.find({email: req.body.email})
+		const users = await User.find({email: args.email})
 		const user = users[0]
 		if (!user) {
 			throw new boom('Authentication failed. User not found.', {statusCode: 404});
 		} else {
 			//check if password matches
-			if (user.password === req.body.password) {
+			if (user.password === args.password) {
 				return user
 			} else {
 				throw new boom('Authentication failed. Wrong password.', {statusCode: 400});
@@ -87,11 +54,10 @@ const login = async (req, reply) => {
 }
 
 // Update an existing user
-const updateUser = async (req, reply) => {
+const updateUser = async (args) => {
 	try {
-		const id = req.params.id
-		const user = req.body
-		const {...updateData} = user
+		const id = args.id
+		const {...updateData} = args
 		return await User.findByIdAndUpdate(id, updateData, {new: true})
 	} catch (err) {
 		throw boom.boomify(err)
@@ -99,9 +65,9 @@ const updateUser = async (req, reply) => {
 }
 
 // Delete a user
-const deleteUser = async (req, reply) => {
+const deleteUser = async (args) => {
 	try {
-		const id = req.params.id
+		const id = args.id
 		return await User.findByIdAndRemove(id)
 	} catch (err) {
 		throw boom.boomify(err)
@@ -110,7 +76,6 @@ const deleteUser = async (req, reply) => {
 
 module.exports = {
 	getUsers,
-	getUsersNear,
 	getSingleUser,
 	addUser,
 	login,

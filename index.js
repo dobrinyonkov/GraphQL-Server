@@ -1,8 +1,9 @@
 // Require external modules
 const mongoose = require('mongoose')
+const gql = require('fastify-gql')
 
 const routes = require('./routes')
-
+const schema = require('./schema')
 // Require the framework and instantiate it
 const fastify = require('fastify')({
   logger: true
@@ -14,6 +15,12 @@ fastify.register(require('fastify-cors'), {
 	credentials: true,
 	allowedHeaders: ['Origin', 'Content-Type', 'Authorization', 'Content-Length'],
   methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS']
+})
+
+// Register Fastify GraphQL
+fastify.register(gql, {
+  schema,
+  graphiql: true
 })
 
 routes.forEach((route, index) => {
@@ -28,12 +35,12 @@ fastify.get('/', async (request, reply) => {
 mongoose.set('useFindAndModify', false);
 
 // Connect to DB
-mongoose.connect('mongodb://admin:1q2w3e@ds211265.mlab.com:11265/uber-guide-v2')
+mongoose.connect('mongodb://admin:1q2w3e@ds211265.mlab.com:11265/uber-guide-v2',  { useNewUrlParser: true })
  .then(() => console.log('MongoDB connected…'))
  .catch(err => console.log(err))
 
 // Run the server!
-const port = 3000
+const port = 3030
 const start = async () => {
   try {
     await fastify.listen(process.env.PORT || port, '0.0.0.0')
