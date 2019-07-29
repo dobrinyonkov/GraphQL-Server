@@ -19,5 +19,9 @@
     "graphql": "^14.4.2",
     "mongoose": "^5.5.11",
     "nodemon": "^1.19.1"
+  },
+  "devDependencies": {
+    "apollo-server-fastify": "^2.7.1",
+    "merge-graphql-schemas": "^1.6.2-bdaf070.0"
   }
 }

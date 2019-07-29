@@ -74,6 +74,15 @@ const deleteUser = async (args) => {
 	}
 }
 
+const getPropertyPublisher = async (args) => {
+	try {
+		const id = args.id
+		return await User.findByIdAndRemove(id)
+	} catch (err) {
+		throw boom.boomify(err)
+	}
+}
+
 module.exports = {
 	getUsers,
 	getSingleUser,

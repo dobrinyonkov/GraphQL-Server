@@ -8,12 +8,14 @@ const {
 } = graphql
 
 const user = require('../models/user/schema')
+const property = require('../models/property/schema')
 
 // Define Root Query
 const RootQuery = new GraphQLObjectType({
 	name: 'RootQueryType',
 	fields: {
-		...user.rootEntries
+		...user.rootEntries,
+		...property.rootEntries,
 	}
 })
 
@@ -21,7 +23,8 @@ const RootQuery = new GraphQLObjectType({
 const Mutations = new GraphQLObjectType({
 	name: 'Mutations',
 	fields: {
-		...user.mutations
+		...user.mutations,
+		...property.mutations
 	}
 })
 

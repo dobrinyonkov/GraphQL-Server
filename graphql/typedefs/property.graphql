@@ -1,0 +1,38 @@
+type Property {
+    id: ID!
+    name: String
+    location: String
+	price: String
+	pricePerSquare: String
+	floor: String
+	type: String
+	quadrature: String
+    publisher: User
+}
+
+type Query {
+    properties: [Property]
+    property(id: ID!): Property
+}
+
+type Mutation {
+    createProperty(property: PropertyInput!): Property
+    updateProperty(propertyId: ID!, property: PropertyInput!): Property!
+    setPropertyPublisher(propertyId: ID!, publisher: ID!): User!
+}
+
+input PropertyInput {
+    name: String!
+    location: String!
+    price: String!
+    publisher: String
+}
+
+type Subscription {
+    propertyMutated: PropertyMutationPayload!
+}
+
+type PropertyMutationPayload {
+    mutation: MutationType!
+    node: Property!
+}

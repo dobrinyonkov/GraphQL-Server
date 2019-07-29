@@ -10,6 +10,15 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	name: {
+		type: String,
+		required: false
+	},
+	properties: [{
+		type:
+		mongoose.Schema.Types.ObjectId,
+		ref: 'Property'
+	}],
 })
 
 module.exports = mongoose.model('User', userSchema)
