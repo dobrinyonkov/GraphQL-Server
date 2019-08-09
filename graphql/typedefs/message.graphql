@@ -1,0 +1,31 @@
+type Message {
+    id: ID!
+    conversation: Conversation
+    body: String
+    author: ID!
+}
+
+type Query {
+    messages: [Message]
+    message(id: ID!): Message
+}
+
+type Mutation {
+    createMessage(message: MessageInput): Message
+    updateMessage(messageId: ID!, body: String): Message
+}
+
+input MessageInput {
+    conversationId: ID!
+    body: String
+    author: ID!
+}
+
+type Subscription {
+    messageMutated: MessageMutationPayload!
+}
+
+type MessageMutationPayload {
+    mutation: MutationType!
+    node: Message!
+}

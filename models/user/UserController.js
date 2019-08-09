@@ -7,6 +7,9 @@ const User = require('./User')
 // Get all users
 const getUsers = async (args) => {
 	try {
+		if (args && args.ids) {
+			return await User.find({ '_id': { $in: args.ids} })
+		} 
 		return await User.find()
 	} catch (err) {
 		throw boom.boomify(err)
@@ -66,15 +69,6 @@ const updateUser = async (args) => {
 
 // Delete a user
 const deleteUser = async (args) => {
-	try {
-		const id = args.id
-		return await User.findByIdAndRemove(id)
-	} catch (err) {
-		throw boom.boomify(err)
-	}
-}
-
-const getPropertyPublisher = async (args) => {
 	try {
 		const id = args.id
 		return await User.findByIdAndRemove(id)

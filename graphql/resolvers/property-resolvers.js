@@ -49,7 +49,6 @@ module.exports = {
 
     Property: {
         async publisher(parent) { 
-            console.log('-----------------parent-----------------', parent)
             return await userController.getSingleUser({ id: parent.publisher });
         },
     }

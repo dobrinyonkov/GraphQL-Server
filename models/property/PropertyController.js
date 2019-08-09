@@ -77,7 +77,6 @@ const deleteProperty = async (args) => {
 const getUserProperties = async (args) => {
 	try {
 		const data = await Property.find({publisher: args})
-		console.log('data-----------', data);
 		return data
 	} catch (err) {
 		throw boom.boomify(err)

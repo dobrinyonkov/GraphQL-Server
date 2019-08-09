@@ -1,7 +1,4 @@
-const {
-    fileLoader,
-    mergeResolvers
-} = require('merge-graphql-schemas');
+const { fileLoader, mergeResolvers } = require('merge-graphql-schemas');
 
 const path = require('path');
 
