@@ -21,7 +21,7 @@
     "nodemon": "^1.19.1"
   },
   "devDependencies": {
-    "apollo-server-fastify": "^2.7.1",
+    "apollo-server-fastify": "^2.14.2",
     "merge-graphql-schemas": "^1.6.2-bdaf070.0"
   }
 }
